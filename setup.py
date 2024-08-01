@@ -29,6 +29,7 @@ REQUIRED_PACKAGES = [
     "hydra-core>=1.3.2",
     "iopath>=0.1.10",
     "pillow>=9.4.0",
+    "matplotlib>=3.9.1", "jupyter>=1.0.0", "opencv-python>=4.7.0"
 ]
 
 EXTRA_PACKAGES = {
@@ -67,6 +68,6 @@ setup(
     install_requires=REQUIRED_PACKAGES,
     extras_require=EXTRA_PACKAGES,
     python_requires=">=3.10.0",
-    ext_modules=get_extensions(),
+    # ext_modules=get_extensions(),
     cmdclass={"build_ext": BuildExtension.with_options(no_python_abi_suffix=True)},
 )
