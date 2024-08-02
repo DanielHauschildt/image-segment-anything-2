@@ -14,8 +14,9 @@ from PIL import Image
 from tqdm import tqdm
 
 
+
 def get_sdpa_settings():
-    if torch.cuda.is_available():
+    if False: #torch.cuda.is_available():
         old_gpu = torch.cuda.get_device_properties(0).major < 7
         # only use Flash Attention on Ampere (8.0) or newer GPUs
         use_flash_attn = torch.cuda.get_device_properties(0).major >= 8
@@ -58,9 +59,10 @@ def get_connected_components(mask):
     - counts: A tensor of shape (N, 1, H, W) containing the area of the connected
               components for foreground pixels and 0 for background pixels.
     """
-    from sam2 import _C
-
-    return _C.get_connected_componnets(mask.to(torch.uint8).contiguous())
+    # from sam2 import _C
+    import kornia.contrib.connected_components
+    return connected_components(mask.to(torch.uint8).contiguous())
+    # return _C.get_connected_componnets(mask.to(torch.uint8).contiguous())
 
 
 def mask_to_box(masks: torch.Tensor):
@@ -203,7 +205,7 @@ def load_video_frames(
     images = torch.zeros(num_frames, 3, image_size, image_size, dtype=torch.float32)
     for n, img_path in enumerate(tqdm(img_paths, desc="frame loading (JPEG)")):
         images[n], video_height, video_width = _load_img_as_tensor(img_path, image_size)
-    if not offload_video_to_cpu:
+    if False: # not offload_video_to_cpu:
         images = images.cuda()
         img_mean = img_mean.cuda()
         img_std = img_std.cuda()

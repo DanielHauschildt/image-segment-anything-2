@@ -29,7 +29,8 @@ REQUIRED_PACKAGES = [
     "hydra-core>=1.3.2",
     "iopath>=0.1.10",
     "pillow>=9.4.0",
-    "matplotlib>=3.9.1", "jupyter>=1.0.0", "opencv-python>=4.7.0"
+    "matplotlib>=3.9.1", "jupyter>=1.0.0", "opencv-python>=4.7.0",
+    "kornia>=0.6.0",
 ]
 
 EXTRA_PACKAGES = {

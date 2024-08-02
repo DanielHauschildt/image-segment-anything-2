@@ -30,7 +30,9 @@ class SAM2VideoPredictor(SAM2Base):
         **kwargs,
     ):
         super().__init__(**kwargs)
-        self.fill_hole_area = fill_hole_area
+        # self.fill_hole_area = fill_hole_area
+        self.fill_hole_area = 0
+        
         self.non_overlap_masks = non_overlap_masks
         self.clear_non_cond_mem_around_input = clear_non_cond_mem_around_input
         self.clear_non_cond_mem_for_multi_obj = clear_non_cond_mem_for_multi_obj
@@ -217,7 +219,8 @@ class SAM2VideoPredictor(SAM2Base):
                 prev_out = obj_output_dict["non_cond_frame_outputs"].get(frame_idx)
 
         if prev_out is not None and prev_out["pred_masks"] is not None:
-            prev_sam_mask_logits = prev_out["pred_masks"].cuda(non_blocking=True)
+            # prev_sam_mask_logits = prev_out["pred_masks"].cuda(non_blocking=True)
+            prev_sam_mask_logits = prev_out["pred_masks"].to("mps")
             # Clamp the scale of prev_sam_mask_logits to avoid rare numerical issues.
             prev_sam_mask_logits = torch.clamp(prev_sam_mask_logits, -32.0, 32.0)
         current_out, _ = self._run_single_frame_inference(
